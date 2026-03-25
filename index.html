@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nexus UI — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent2: #f76a8a;
+      --accent3: #6af7c8;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --radius: 8px;
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-display); line-height: 1.6; }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* LAYOUT */
+    .sidebar { position: fixed; top: 0; left: 0; width: 240px; height: 100vh; background: var(--surface); border-right: 1px solid var(--border); padding: 32px 0; overflow-y: auto; z-index: 100; }
+    .sidebar-logo { padding: 0 24px 32px; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+    .sidebar-logo span { color: var(--accent); }
+    .nav-section { padding: 0 24px; margin-bottom: 24px; }
+    .nav-label { font-size: 0.65rem; font-family: var(--font-mono); letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .nav-link { display: block; padding: 6px 10px; border-radius: var(--radius); color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: all .2s; margin-bottom: 2px; }
+    .nav-link:hover, .nav-link.active { background: rgba(124,106,247,.12); color: var(--accent); }
+    .main { margin-left: 240px; padding: 60px 64px; max-width: 1100px; }
+
+    /* SECTIONS */
+    .section { margin-bottom: 80px; opacity: 0; transform: translateY(20px); animation: fadeUp .5s forwards; }
+    .section:nth-child(1){animation-delay:.1s} .section:nth-child(2){animation-delay:.2s}
+    .section:nth-child(3){animation-delay:.3s} .section:nth-child(4){animation-delay:.4s}
+    .section:nth-child(5){animation-delay:.5s} .section:nth-child(6){animation-delay:.6s}
+    @keyframes fadeUp { to { opacity:1; transform:none; } }
+    .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+    .section-desc { color: var(--muted); font-size: .95rem; margin-bottom: 32px; max-width: 560px; }
+
+    /* COMPONENT CANVAS */
+    .canvas { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .canvas.dark-alt { background: #0d0d14; }
+    .code-label { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; display: inline-block; margin-bottom: 24px; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 700; font-size: .875rem; border: none; cursor: pointer; border-radius: var(--radius); padding: 10px 20px; transition: all .2s; letter-spacing: .3px; position: relative; overflow: hidden; }
+    .btn::after { content:''; position:absolute; inset:0; background:white; opacity:0; transition:.2s; }
+    .btn:hover::after { opacity:.06; }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+    .btn-danger  { background: var(--accent2); color: #fff; }
+    .btn-ghost   { background: rgba(255,255,255,.05); color: var(--text); }
+    .btn-sm { padding: 6px 14px; font-size: .8rem; }
+    .btn-lg { padding: 14px 28px; font-size: 1rem; }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ── BADGES ── */
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: .72rem; font-weight: 500; padding: 3px 10px; border-radius: 100px; }
+    .badge-purple  { background: rgba(124,106,247,.18); color: var(--accent); }
+    .badge-pink    { background: rgba(247,106,138,.18); color: var(--accent2); }
+    .badge-green   { background: rgba(106,247,200,.18); color: var(--accent3); }
+    .badge-neutral { background: rgba(255,255,255,.07); color: var(--muted); }
+    .badge-dot::before { content:''; width:6px; height:6px; border-radius:50%; background:currentColor; display:inline-block; }
+
+    /* ── CARDS ── */
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 240px; transition: border-color .2s, transform .2s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(124,106,247,.15); display: grid; place-items: center; margin-bottom: 16px; font-size: 1.2rem; }
+    .card-title { font-weight: 700; margin-bottom: 6px; }
+    .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── INPUTS ── */
+    .input-group { display: flex; flex-direction: column; gap: 6px; width: 260px; }
+    .input-label { font-size: .8rem; font-weight: 700; color: var(--muted); letter-spacing: .5px; }
+    .input { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; color: var(--text); font-family: var(--font-display); font-size: .9rem; outline: none; transition: border-color .2s; width: 100%; }
+    .input:focus { border-color: var(--accent); }
+    .input:focus + .input-hint { color: var(--accent); }
+    .input-hint { font-size: .75rem; color: var(--muted); font-family: var(--font-mono); transition: color .2s; }
+    .input-error { border-color: var(--accent2) !important; }
+    .hint-error { color: var(--accent2) !important; }
+
+    /* ── TOGGLES ── */
+    .toggle { appearance: none; width: 44px; height: 24px; background: var(--border); border-radius: 100px; cursor: pointer; position: relative; transition: background .2s; }
+    .toggle::after { content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:3px; left:3px; transition: transform .2s; }
+    .toggle:checked { background: var(--accent); }
+    .toggle:checked::after { transform: translateX(20px); }
+
+    /* ── ALERTS ── */
+    .alert { border-radius: var(--radius); padding: 14px 18px; font-size: .875rem; border-left: 3px solid; display: flex; align-items: flex-start; gap: 10px; width: 100%; }
+    .alert-info    { background: rgba(124,106,247,.1); border-color: var(--accent); }
+    .alert-success { background: rgba(106,247,200,.1); border-color: var(--accent3); }
+    .alert-danger  { background: rgba(247,106,138,.1); border-color: var(--accent2); }
+
+    /* ── AVATAR ── */
+    .avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .875rem; }
+    .avatar-stack { display: flex; }
+    .avatar-stack .avatar { border: 2px solid var(--surface); margin-left: -10px; }
+    .avatar-stack .avatar:first-child { margin-left: 0; }
+
+    /* ── PROGRESS ── */
+    .progress-wrap { width: 100%; }
+    .progress-header { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: 8px; }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .8s cubic-bezier(.4,0,.2,1); }
+
+    /* ── COLORS ── */
+    .color-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+    .color-swatch { width: 80px; }
+    .swatch-box { height: 64px; border-radius: var(--radius); margin-bottom: 8px; }
+    .swatch-name { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+    .swatch-val  { font-family: var(--font-mono); font-size: .72rem; color: var(--text); }
+
+    /* ── TYPOGRAPHY ── */
+    .type-row { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .type-row:last-child { border: none; }
+    .type-label { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); margin-bottom: 4px; }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(4px); z-index: 999; place-items: center; }
+    .modal-overlay.open { display: grid; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; width: 420px; max-width: 90vw; animation: modalIn .25s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes modalIn { from { opacity:0; transform:scale(.9); } to { opacity:1; transform:none; } }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-title { font-size: 1.2rem; font-weight: 800; }
+    .modal-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.2rem; }
+    .modal-body { color: var(--muted); font-size: .9rem; margin-bottom: 24px; line-height: 1.6; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* HERO */
+    .hero { margin-bottom: 80px; padding: 60px 0 40px; border-bottom: 1px solid var(--border); }
+    .hero-tag { font-family: var(--font-mono); font-size: .75rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+    .hero-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+    .hero-title em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { color: var(--muted); font-size: 1.05rem; max-width: 480px; }
+
+    /* GRID DEMO */
+    .grid-demo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+    .grid-cell { background: rgba(124,106,247,.08); border: 1px dashed rgba(124,106,247,.3); border-radius: var(--radius); padding: 20px; text-align: center; font-family: var(--font-mono); font-size: .8rem; color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">Nexus<span>UI</span></div>
+  <div class="nav-section">
+    <div class="nav-label">Foundation</div>
+    <a href="#colors"     class="nav-link">Colors</a>
+    <a href="#typography" class="nav-link">Typography</a>
+    <a href="#spacing"    class="nav-link">Grid & Spacing</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Components</div>
+    <a href="#buttons"  class="nav-link active">Buttons</a>
+    <a href="#badges"   class="nav-link">Badges</a>
+    <a href="#cards"    class="nav-link">Cards</a>
+    <a href="#inputs"   class="nav-link">Inputs</a>
+    <a href="#toggles"  class="nav-link">Toggles</a>
+    <a href="#alerts"   class="nav-link">Alerts</a>
+    <a href="#avatars"  class="nav-link">Avatars</a>
+    <a href="#progress" class="nav-link">Progress</a>
+    <a href="#modal"    class="nav-link">Modal</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">v1.0.0 — Design System</div>
+    <h1 class="hero-title">Build with <em>Nexus UI</em></h1>
+    <p class="hero-sub">A production-ready component library. Zero dependencies. Pure HTML, CSS & JavaScript.</p>
+  </div>
+
+  <!-- COLORS -->
+  <section class="section" id="colors">
+    <h2 class="section-title">Colors</h2>
+    <p class="section-desc">A dark-first palette built with CSS custom properties for seamless theming.</p>
+    <div class="canvas">
+      <div class="color-grid">
+        <div class="color-swatch"><div class="swatch-box" style="background:#7c6af7"></div><div class="swatch-name">--accent</div><div class="swatch-val">#7c6af7</div></div>
+        <div class="color-swatch"><div class="swatch-box" style="background:#f76a8a"></div><div class="swatch-name">--accent2</div><div class="swatch-val">#f76a8a</div></div>
+        <div class="color-swatch"><div class="swatch-box" style="background:#6af7c8"></div><div class="swatch-name">--accent3</div><div class="swatch-val">#6af7c8</div></div>
+        <div class="color-swatch"><div class="swatch-box" style="background:#e8e8f0"></div><div class="swatch-name">--text</div><div class="swatch-val">#e8e8f0</div></div>
+        <div class="color-swatch"><div class="swatch-box" style="background:#12121a; border:1px solid #1e1e2e"></div><div class="swatch-name">--surface</div><div class="swatch-val">#12121a</div></div>
+        <div class="color-swatch"><div class="swatch-box" style="background:#0a0a0f; border:1px solid #1e1e2e"></div><div class="swatch-name">--bg</div><div class="swatch-val">#0a0a0f</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="section" id="typography">
+    <h2 class="section-title">Typography</h2>
+    <p class="section-desc">Syne for display, DM Mono for code. Clear hierarchy through weight and size.</p>
+    <div class="canvas" style="flex-direction:column; align-items:flex-start;">
+      <div class="type-row"><div class="type-label">Display — 4rem / 800</div><div style="font-size:3.5rem;font-weight:800;letter-spacing:-2px;line-height:1">The Quick Fox</div></div>
+      <div class="type-row"><div class="type-label">Heading 1 — 2.5rem / 800</div><div style="font-size:2.5rem;font-weight:800;letter-spacing:-1px">Section Title</div></div>
+      <div class="type-row"><div class="type-label">Heading 2 — 1.5rem / 700</div><div style="font-size:1.5rem;font-weight:700">Subsection Title</div></div>
+      <div class="type-row"><div class="type-label">Body — 1rem / 400</div><div style="font-size:1rem;color:var(--muted);max-width:480px">The quick brown fox jumps over the lazy dog. A production-ready paragraph with comfortable reading measure.</div></div>
+      <div class="type-row"><div class="type-label">Mono — DM Mono 0.875rem</div><div style="font-family:var(--font-mono);font-size:.875rem;color:var(--accent)">const nexus = new DesignSystem();</div></div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="section" id="buttons">
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-desc">Five variants, three sizes, disabled state. All with hover and active micro-interactions.</p>
+    <span class="code-label">.btn .btn-primary / .btn-secondary / .btn-danger / .btn-ghost</span>
+    <div class="canvas">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-danger">Danger</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+    </div>
+    <div class="canvas">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section class="section" id="badges">
+    <h2 class="section-title">Badges</h2>
+    <p class="section-desc">Status indicators and label chips with dot variants.</p>
+    <div class="canvas">
+      <span class="badge badge-purple badge-dot">Active</span>
+      <span class="badge badge-pink badge-dot">Critical</span>
+      <span class="badge badge-green badge-dot">Online</span>
+      <span class="badge badge-neutral">Draft</span>
+      <span class="badge badge-purple">v2.4.1</span>
+      <span class="badge badge-green">Verified</span>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="section" id="cards">
+    <h2 class="section-title">Cards</h2>
+    <p class="section-desc">Hover to see the accent border animation.</p>
+    <div class="canvas">
+      <div class="card"><div class="card-icon">⚡</div><div class="card-title">Performance</div><div class="card-desc">Zero runtime overhead. Pure CSS transitions and transforms.</div></div>
+      <div class="card"><div class="card-icon">🎨</div><div class="card-title">Themeable</div><div class="card-desc">CSS custom properties make dark/light theming trivial.</div></div>
+      <div class="card"><div class="card-icon">♿</div><div class="card-title">Accessible</div><div class="card-desc">WCAG 2.1 AA compliant with proper ARIA attributes.</div></div>
+    </div>
+  </section>
+
+  <!-- INPUTS -->
+  <section class="section" id="inputs">
+    <h2 class="section-title">Inputs</h2>
+    <p class="section-desc">Labels, hints, focus states and error variants.</p>
+    <div class="canvas">
+      <div class="input-group">
+        <label class="input-label">Email address</label>
+        <input class="input" type="email" placeholder="hello@nexus.ui">
+        <span class="input-hint">We'll never share your email.</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">API Key</label>
+        <input class="input input-error" type="text" value="invalid-key-123">
+        <span class="input-hint hint-error">Invalid API key format.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOGGLES -->
+  <section class="section" id="toggles">
+    <h2 class="section-title">Toggles</h2>
+    <div class="canvas" style="gap:24px">
+      <label style="display:flex;align-items:center;gap:12px;cursor:pointer"><input type="checkbox" class="toggle" checked><span>Notifications</span></label>
+      <label style="display:flex;align-items:center;gap:12px;cursor:pointer"><input type="checkbox" class="toggle"><span>Dark Mode</span></label>
+      <label style="display:flex;align-items:center;gap:12px;cursor:pointer"><input type="checkbox" class="toggle" checked><span>Auto-save</span></label>
+    </div>
+  </section>
+
+  <!-- ALERTS -->
+  <section class="section" id="alerts">
+    <h2 class="section-title">Alerts</h2>
+    <div class="canvas" style="flex-direction:column">
+      <div class="alert alert-info"><span>ℹ️</span><span>Your session will expire in 15 minutes. Save your work.</span></div>
+      <div class="alert alert-success"><span>✅</span><span>Deployment successful. Version 2.4.1 is now live.</span></div>
+      <div class="alert alert-danger"><span>🚨</span><span>Build failed. Check the console for error details.</span></div>
+    </div>
+  </section>
+
+  <!-- AVATARS -->
+  <section class="section" id="avatars">
+    <h2 class="section-title">Avatars</h2>
+    <div class="canvas" style="gap:24px">
+      <div class="avatar" style="background:rgba(124,106,247,.2);color:var(--accent)">JD</div>
+      <div class="avatar" style="background:rgba(247,106,138,.2);color:var(--accent2)">MK</div>
+      <div class="avatar" style="background:rgba(106,247,200,.2);color:var(--accent3)">AL</div>
+      <div class="avatar-stack">
+        <div class="avatar" style="background:rgba(124,106,247,.3);color:var(--accent)">A</div>
+        <div class="avatar" style="background:rgba(247,106,138,.3);color:var(--accent2)">B</div>
+        <div class="avatar" style="background:rgba(106,247,200,.3);color:var(--accent3)">C</div>
+        <div class="avatar" style="background:var(--border);color:var(--muted)">+4</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="section" id="progress">
+    <h2 class="section-title">Progress</h2>
+    <div class="canvas" style="flex-direction:column; gap:20px">
+      <div class="progress-wrap"><div class="progress-header"><span>Deployment</span><span style="color:var(--accent)">78%</span></div><div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div></div>
+      <div class="progress-wrap"><div class="progress-header"><span>Storage</span><span style="color:var(--accent2)">52%</span></div><div class="progress-bar"><div class="progress-fill" style="width:52%; background:linear-gradient(90deg,var(--accent2),var(--accent))"></div></div></div>
+      <div class="progress-wrap"><div class="progress-header"><span>Tests passing</span><span style="color:var(--accent3)">94%</span></div><div class="progress-bar"><div class="progress-fill" style="width:94%; background:var(--accent3)"></div></div></div>
+    </div>
+  </section>
+
+  <!-- MODAL -->
+  <section class="section" id="modal">
+    <h2 class="section-title">Modal</h2>
+    <p class="section-desc">Backdrop blur + spring animation on open.</p>
+    <div class="canvas"><button class="btn btn-primary" onclick="document.getElementById('demo-modal').classList.add('open')">Open Modal</button></div>
+  </section>
+
+  <!-- GRID -->
+  <section class="section" id="spacing">
+    <h2 class="section-title">Grid & Spacing</h2>
+    <p class="section-desc">CSS Grid utilities with consistent 8px spacing scale.</p>
+    <div class="canvas"><div class="grid-demo"><div class="grid-cell">col-1</div><div class="grid-cell">col-2</div><div class="grid-cell">col-3</div><div class="grid-cell">col-4</div><div class="grid-cell">col-5</div><div class="grid-cell">col-6</div></div></div>
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="demo-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Confirm Action</span>
+      <button class="modal-close" onclick="document.getElementById('demo-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">Are you sure you want to deploy to production? This action cannot be undone and will affect all active users.</div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('demo-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="document.getElementById('demo-modal').classList.remove('open')">Deploy Now</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
